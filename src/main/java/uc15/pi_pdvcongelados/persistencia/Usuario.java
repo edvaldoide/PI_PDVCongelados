@@ -6,7 +6,7 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
-    private String funcao;
+    private String tipoUsuario;
 
     public int getId() {
         return id;
@@ -40,12 +40,12 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public String getFuncao() {
-        return funcao;
+    public String getTipoUsuario() {
+        return tipoUsuario;
     }
 
-    public void setFuncao(String funcao) {
-        this.funcao = funcao;
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 
 }

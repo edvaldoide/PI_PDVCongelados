@@ -4,7 +4,8 @@ public class Produto {
 
     private int id;
     private String descricao;
-    private int quantidadeEstoque;
+    private int estoque;
+    private int quantidade;
     private double precoCustoUnitario;
     private double precoVendaUnitario;
 
@@ -24,12 +25,20 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public int getQuantidadeEstoque() {
-        return quantidadeEstoque;
+    public int getEstoque() {
+        return estoque;
     }
 
-    public void setQuantidadeEstoque(int quantidadeEstoque) {
-        this.quantidadeEstoque = quantidadeEstoque;
+    public void setEstoque(int estoque) {
+        this.estoque = estoque;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 
     public double getPrecoCustoUnitario() {
