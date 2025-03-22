@@ -4,6 +4,11 @@
  */
 package uc15.pi_pdvcongelados.gui;
 
+import javax.swing.JOptionPane;
+import uc15.pi_pdvcongelados.persistencia.Criptografia;
+import uc15.pi_pdvcongelados.persistencia.Usuario;
+import uc15.pi_pdvcongelados.persistencia.UsuarioDAO;
+
 /**
  *
  * @author edval
@@ -30,9 +35,9 @@ public class TelaLogin extends javax.swing.JFrame {
         lblLogin = new javax.swing.JLabel();
         txtLogin = new javax.swing.JTextField();
         lblSenha = new javax.swing.JLabel();
-        txtSenha = new javax.swing.JTextField();
         btnLogin = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        txtSenha = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -48,18 +53,27 @@ public class TelaLogin extends javax.swing.JFrame {
         lblSenha.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblSenha.setText("Senha");
 
-        txtSenha.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setText("FAÇA SEU LOGIN");
+
+        txtSenha.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(163, 163, 163))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -76,10 +90,6 @@ public class TelaLogin extends javax.swing.JFrame {
                                 .addComponent(jLabel2)
                                 .addGap(107, 107, 107)))
                         .addGap(16, 16, 16))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(163, 163, 163))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,7 +104,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 .addComponent(lblSenha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnLogin)
                 .addGap(24, 24, 24))
         );
@@ -126,7 +136,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(48, 48, 48)
                 .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -151,6 +161,53 @@ public class TelaLogin extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        
+        // TODO add your handling code here:
+        // Criamos um objeto do tipo Usuario
+        Usuario usuario = new Usuario();
+
+        // Atribuimos os valores Login e Senha baseado nos dados dos componentes JTextField
+        usuario.setEmail(txtLogin.getText());
+        usuario.setSenha(Criptografia.getMD5(txtSenha.getText()));
+
+        // Exemplo de SQL Injection baseada em booleano
+        usuario = UsuarioDAO.validarUsuarioSeguro(usuario);
+
+        // "Reescrevemos" os valores do objeto baseado na resposta do método
+        // Se nenhum registro for encontrado, teremos um usuário NULO           
+        if (usuario != null) {
+
+            TelaFerramAdminAdministrador tfa = new TelaFerramAdminAdministrador();
+            TelaFerramAdminGerente tfg = new TelaFerramAdminGerente();
+            TelaVenda tv = new TelaVenda();
+            
+            // Dependendo do tipo de usuário, levamos a uma página diferente
+            if (usuario.getTipoUsuario().equalsIgnoreCase("Administrador")) {
+                JOptionPane.showMessageDialog(null, "Olá " + usuario.getNome() + ", sua permissão é do tipo " + usuario.getTipoUsuario()+ ". Seja bem vindo(a)!");
+                tfa.setVisible(true);
+                dispose();
+
+            } else if (usuario.getTipoUsuario().equalsIgnoreCase("Gerente")) {
+                JOptionPane.showMessageDialog(null, "Olá " + usuario.getNome() + ", sua permissão é do tipo " + usuario.getTipoUsuario()+ ". Seja bem vindo(a)!");
+                tfg.setVisible(true);
+                dispose();
+
+            } else if (usuario.getTipoUsuario().equalsIgnoreCase("Vendedor")) {
+                JOptionPane.showMessageDialog(null, "Olá " + usuario.getNome() + ", sua permissão é do tipo " + usuario.getTipoUsuario()+ ". Seja bem vindo(a)!");
+                tv.setVisible(true);
+                dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Ops, " + usuario.getNome() + "\nParece que você não tem permissão acessar o sistema :( ");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro de autenticação! Verifique se os dados estão corretos.");
+        }
+        
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -200,6 +257,6 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblSenha;
     private javax.swing.JTextField txtLogin;
-    private javax.swing.JTextField txtSenha;
+    private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }
