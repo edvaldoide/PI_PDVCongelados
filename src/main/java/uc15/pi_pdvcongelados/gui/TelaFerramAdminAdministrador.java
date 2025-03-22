@@ -170,7 +170,7 @@ public class TelaFerramAdminAdministrador extends javax.swing.JFrame {
 
     private void btnEfetuarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEfetuarVendaActionPerformed
         
-        TelaVendas tv = new TelaVendas();
+        TelaVenda tv = new TelaVenda();
         tv.setVisible(true);
         
     }//GEN-LAST:event_btnEfetuarVendaActionPerformed

@@ -1,6 +1,6 @@
 package uc15.pi_pdvcongelados.persistencia;
 
-public class Pedido {
+public class Venda {
 
     private int id;
     private int id_usuario;
