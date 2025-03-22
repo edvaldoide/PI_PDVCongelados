@@ -43,7 +43,7 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
         btnAdicionar = new javax.swing.JButton();
         btnNovoProduto = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delicias_food.jpg"))); // NOI18N
@@ -217,7 +217,8 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnNovoProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoProdutoActionPerformed
-        // TODO add your handling code here:
+        TelaCadastroNovoProduto tcnp = new TelaCadastroNovoProduto();
+        tcnp.setVisible(true);
     }//GEN-LAST:event_btnNovoProdutoActionPerformed
 
     /**

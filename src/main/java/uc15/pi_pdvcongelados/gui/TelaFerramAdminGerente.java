@@ -46,12 +46,27 @@ public class TelaFerramAdminGerente extends javax.swing.JFrame {
 
         btnAdicionarProdutos.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAdicionarProdutos.setText("Adicionar produtos para venda");
+        btnAdicionarProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarProdutosActionPerformed(evt);
+            }
+        });
 
         btnEfetuarVenda.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnEfetuarVenda.setText("Efetuar venda");
+        btnEfetuarVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEfetuarVendaActionPerformed(evt);
+            }
+        });
 
         btnListaVendas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnListaVendas.setText("Lista de vendas");
+        btnListaVendas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListaVendasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -126,6 +141,27 @@ public class TelaFerramAdminGerente extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAdicionarProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarProdutosActionPerformed
+        
+        TelaAdicionarProdutos tap = new TelaAdicionarProdutos();
+        tap.setVisible(true);
+        
+    }//GEN-LAST:event_btnAdicionarProdutosActionPerformed
+
+    private void btnEfetuarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEfetuarVendaActionPerformed
+        
+        TelaVendas tv = new TelaVendas();
+        tv.setVisible(true);
+        
+    }//GEN-LAST:event_btnEfetuarVendaActionPerformed
+
+    private void btnListaVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaVendasActionPerformed
+        
+        TelaListaTotalVendas tltv = new TelaListaTotalVendas();
+        tltv.setVisible(true);
+        
+    }//GEN-LAST:event_btnListaVendasActionPerformed
 
     /**
      * @param args the command line arguments

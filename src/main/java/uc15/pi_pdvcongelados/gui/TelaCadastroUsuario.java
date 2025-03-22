@@ -40,7 +40,7 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
         cmbTipoUsuario = new javax.swing.JComboBox<>();
         btnCadastrar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delicias_food.jpg"))); // NOI18N

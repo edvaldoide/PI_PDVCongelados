@@ -139,6 +139,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Adicionar produtos para venda"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdicionarProdutosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEfetuarVenda">
               <Properties>
@@ -147,6 +150,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Efetuar venda"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEfetuarVendaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnListaVendas">
               <Properties>
@@ -155,6 +161,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Lista de vendas"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnListaVendasActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
