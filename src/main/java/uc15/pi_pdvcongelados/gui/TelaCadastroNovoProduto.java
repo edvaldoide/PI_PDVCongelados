@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package uc15.pi_pdvcongelados.gui;
 
 import javax.swing.JOptionPane;
 import uc15.pi_pdvcongelados.persistencia.Produto;
+import uc15.pi_pdvcongelados.persistencia.ProdutoDAO;
 
-/**
- *
- * @author edval
- */
 public class TelaCadastroNovoProduto extends javax.swing.JFrame {
 
     /**
@@ -195,7 +188,7 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
         try {
 
             String strDescricao = txtDescricao.getText();
-            boolean descricao = strDescricao.matches("[a-zA-Z]{1,}");
+            boolean descricao = strDescricao.isEmpty();
 
             String strAdicionar = txtAdicionar.getText();
             boolean adicionar = strAdicionar.isEmpty();
@@ -206,7 +199,7 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
             String strPrecoVenda = txtPrecoVenda.getText();
             boolean precoVenda = strPrecoVenda.isEmpty();
 
-            if (strDescricao.isEmpty() || descricao == false) {
+            if (strDescricao.isEmpty() || strDescricao == "") {
                 JOptionPane.showMessageDialog(null, "O campo Descrição deve ser informado e válido");
             } else if (adicionar == true || strAdicionar == "") {
                 JOptionPane.showMessageDialog(null, "O campo Quantidade à ser adicionada deve ser informado e válido");
@@ -215,18 +208,20 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
             } else if (precoVenda == true || strPrecoVenda =="") {
                 JOptionPane.showMessageDialog(null, "O campo Preço de venda unitário deve ser informado e válido");
             } else {
-                //para o produtor capturamos direto o valor do campo de texto
+                //para a descrição capturamos direto o valor do campo de texto
                 novoProduto.setDescricao(txtDescricao.getText());
-                //para o nome do episódio capturamos direto o valor do campo de texto
+                //para a quantidade capturamos o valor do campo de texto e convertemos para valor inteiro
                 novoProduto.setQuantidade(Integer.parseInt(strAdicionar));
-                //para o número do episódio capturamos direto o valor do campo de texto
+                //para o estoque capturamos o valor do campo de texto e convertemos para valor inteiro
+                novoProduto.setEstoque(Integer.parseInt(strAdicionar));
+                //para o preço de custo unitário capturamos o valor do campo de texto e convertemos para valor double
                 novoProduto.setPrecoCustoUnitario(Double.parseDouble(strPrecoCusto));
-                //para duração capturamos direto o valor do campo de texto
+                //para o preço de venda unitário capturamos o valor do campo de texto e convertemos para valor double
                 novoProduto.setPrecoVendaUnitario(Double.parseDouble(strPrecoVenda));
 
                 //gravando os dados no repositório
-             //   RepositorioDAO repositorioDao = new RepositorioDAO();
-              //  repositorioDao.cadastrar(novoPodcast);
+                ProdutoDAO produtoDao = new ProdutoDAO();
+                produtoDao.cadastrar(novoProduto);
 
                 //mensagem de sucesso de cadastro
                 JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
