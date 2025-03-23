@@ -4,6 +4,9 @@
  */
 package uc15.pi_pdvcongelados.gui;
 
+import javax.swing.JOptionPane;
+import uc15.pi_pdvcongelados.persistencia.Produto;
+
 /**
  *
  * @author edval
@@ -187,7 +190,57 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        // TODO add your handling code here:
+
+        Produto novoProduto = new Produto();
+        try {
+
+            String strDescricao = txtDescricao.getText();
+            boolean descricao = strDescricao.matches("[a-zA-Z]{1,}");
+
+            String strAdicionar = txtAdicionar.getText();
+            boolean adicionar = strAdicionar.isEmpty();
+
+            String strPrecoCusto = txtPrecoCusto.getText();
+            boolean precoCusto = strPrecoCusto.isEmpty();
+
+            String strPrecoVenda = txtPrecoVenda.getText();
+            boolean precoVenda = strPrecoVenda.isEmpty();
+
+            if (strDescricao.isEmpty() || descricao == false) {
+                JOptionPane.showMessageDialog(null, "O campo Descrição deve ser informado e válido");
+            } else if (adicionar == true || strAdicionar == "") {
+                JOptionPane.showMessageDialog(null, "O campo Quantidade à ser adicionada deve ser informado e válido");
+            } else if (precoCusto == true || strPrecoCusto == "") {
+                JOptionPane.showMessageDialog(null, "O campo Preço de custo unitário deve ser informado e válido");
+            } else if (precoVenda == true || strPrecoVenda =="") {
+                JOptionPane.showMessageDialog(null, "O campo Preço de venda unitário deve ser informado e válido");
+            } else {
+                //para o produtor capturamos direto o valor do campo de texto
+                novoProduto.setDescricao(txtDescricao.getText());
+                //para o nome do episódio capturamos direto o valor do campo de texto
+                novoProduto.setQuantidade(Integer.parseInt(strAdicionar));
+                //para o número do episódio capturamos direto o valor do campo de texto
+                novoProduto.setPrecoCustoUnitario(Double.parseDouble(strPrecoCusto));
+                //para duração capturamos direto o valor do campo de texto
+                novoProduto.setPrecoVendaUnitario(Double.parseDouble(strPrecoVenda));
+
+                //gravando os dados no repositório
+             //   RepositorioDAO repositorioDao = new RepositorioDAO();
+              //  repositorioDao.cadastrar(novoPodcast);
+
+                //mensagem de sucesso de cadastro
+                JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
+
+                //limpando os campos de dados
+                txtDescricao.setText("");
+                txtAdicionar.setText("");
+                txtPrecoCusto.setText("");
+                txtPrecoVenda.setText("");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocorreu uma falha:\n" + e.getMessage());
+        }
+
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     /**
