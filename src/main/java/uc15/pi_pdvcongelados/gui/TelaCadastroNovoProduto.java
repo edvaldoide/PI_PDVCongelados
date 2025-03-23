@@ -199,7 +199,7 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
             String strPrecoVenda = txtPrecoVenda.getText();
             boolean precoVenda = strPrecoVenda.isEmpty();
 
-            if (strDescricao.isEmpty() || strDescricao == "") {
+            if (descricao ==true || strDescricao == "") {
                 JOptionPane.showMessageDialog(null, "O campo Descrição deve ser informado e válido");
             } else if (adicionar == true || strAdicionar == "") {
                 JOptionPane.showMessageDialog(null, "O campo Quantidade à ser adicionada deve ser informado e válido");

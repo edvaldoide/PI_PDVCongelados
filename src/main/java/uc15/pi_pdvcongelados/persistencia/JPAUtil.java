@@ -8,7 +8,7 @@ public class JPAUtil {
 
     //constante para centralizar o nome da unidade de persistência
     // se o nome mudar, precisaremos alterar em um só lugar
-    private static final String PERSISTENCE_UNIT = "bd_uc10-PU";
+    private static final String PERSISTENCE_UNIT = "pdvcongelados-PU";
 
     private static EntityManager em;
     private static EntityManagerFactory fabrica;
