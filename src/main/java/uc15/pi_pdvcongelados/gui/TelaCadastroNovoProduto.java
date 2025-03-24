@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package uc15.pi_pdvcongelados.gui;
 
-/**
- *
- * @author edval
- */
+import javax.swing.JOptionPane;
+import uc15.pi_pdvcongelados.persistencia.Produto;
+import uc15.pi_pdvcongelados.persistencia.ProdutoDAO;
+
 public class TelaCadastroNovoProduto extends javax.swing.JFrame {
 
     /**
@@ -187,7 +183,59 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        // TODO add your handling code here:
+
+        Produto novoProduto = new Produto();
+        try {
+
+            String strDescricao = txtDescricao.getText();
+            boolean descricao = strDescricao.isEmpty();
+
+            String strAdicionar = txtAdicionar.getText();
+            boolean adicionar = strAdicionar.isEmpty();
+
+            String strPrecoCusto = txtPrecoCusto.getText();
+            boolean precoCusto = strPrecoCusto.isEmpty();
+
+            String strPrecoVenda = txtPrecoVenda.getText();
+            boolean precoVenda = strPrecoVenda.isEmpty();
+
+            if (descricao ==true || strDescricao == "") {
+                JOptionPane.showMessageDialog(null, "O campo Descrição deve ser informado e válido");
+            } else if (adicionar == true || strAdicionar == "") {
+                JOptionPane.showMessageDialog(null, "O campo Quantidade à ser adicionada deve ser informado e válido");
+            } else if (precoCusto == true || strPrecoCusto == "") {
+                JOptionPane.showMessageDialog(null, "O campo Preço de custo unitário deve ser informado e válido");
+            } else if (precoVenda == true || strPrecoVenda =="") {
+                JOptionPane.showMessageDialog(null, "O campo Preço de venda unitário deve ser informado e válido");
+            } else {
+                //para a descrição capturamos direto o valor do campo de texto
+                novoProduto.setDescricao(txtDescricao.getText());
+                //para a quantidade capturamos o valor do campo de texto e convertemos para valor inteiro
+                novoProduto.setQuantidade(Integer.parseInt(strAdicionar));
+                //para o estoque capturamos o valor do campo de texto e convertemos para valor inteiro
+                novoProduto.setEstoque(Integer.parseInt(strAdicionar));
+                //para o preço de custo unitário capturamos o valor do campo de texto e convertemos para valor double
+                novoProduto.setPrecoCustoUnitario(Double.parseDouble(strPrecoCusto));
+                //para o preço de venda unitário capturamos o valor do campo de texto e convertemos para valor double
+                novoProduto.setPrecoVendaUnitario(Double.parseDouble(strPrecoVenda));
+
+                //gravando os dados no repositório
+                ProdutoDAO produtoDao = new ProdutoDAO();
+                produtoDao.cadastrar(novoProduto);
+
+                //mensagem de sucesso de cadastro
+                JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
+
+                //limpando os campos de dados
+                txtDescricao.setText("");
+                txtAdicionar.setText("");
+                txtPrecoCusto.setText("");
+                txtPrecoVenda.setText("");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocorreu uma falha:\n" + e.getMessage());
+        }
+
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     /**
