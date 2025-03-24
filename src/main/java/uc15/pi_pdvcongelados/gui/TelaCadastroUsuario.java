@@ -4,6 +4,13 @@
  */
 package uc15.pi_pdvcongelados.gui;
 
+import javax.swing.JOptionPane;
+import uc15.pi_pdvcongelados.persistencia.Criptografia;
+import uc15.pi_pdvcongelados.persistencia.Produto;
+import uc15.pi_pdvcongelados.persistencia.ProdutoDAO;
+import uc15.pi_pdvcongelados.persistencia.Usuario;
+import uc15.pi_pdvcongelados.persistencia.UsuarioDAO;
+
 /**
  *
  * @author edval
@@ -181,7 +188,58 @@ public class TelaCadastroUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        // TODO add your handling code here:
+
+        Usuario novoUsuario = new Usuario();
+        try {
+
+            String strNome = txtNome.getText();
+            boolean nome = strNome.isEmpty();
+
+            String strLogin = txtLogin.getText();
+            boolean login = strLogin.isEmpty();
+
+            String strSenha = txtSenha.getText();
+            boolean senha = strSenha.isEmpty();
+
+            String strTipoUsuario = cmbTipoUsuario.getSelectedItem().toString();
+            boolean tipoUsuario = strTipoUsuario == "Selecione";
+
+            if (nome == true || strNome == "") {
+                JOptionPane.showMessageDialog(null, "O campo Nome deve ser informado e válido");
+            } else if (login == true || strLogin == "") {
+                JOptionPane.showMessageDialog(null, "O campo Login deve ser informado e válido");
+            } else if (senha == true || strSenha == "") {
+                JOptionPane.showMessageDialog(null, "O campo Senha deve ser informado e válido");
+            } else if (tipoUsuario == true) {
+                JOptionPane.showMessageDialog(null, "O campo Tipo de usuário deve ser selecionado");
+            } else {
+                //para o nome capturamos direto o valor do campo de texto
+                novoUsuario.setNome(strNome);
+                //para o Login capturamos direto o valor do campo de texto
+                novoUsuario.setEmail(strLogin);
+                //para a Senha capturamos direto o valor do campo de texto
+                novoUsuario.setSenha(Criptografia.getMD5(strSenha));
+                //para o Tipo de usuário capturamos o valor do combobox
+                novoUsuario.setTipoUsuario(strTipoUsuario);
+
+                //gravando os dados no repositório
+                UsuarioDAO usuarioDao = new UsuarioDAO();
+                usuarioDao.cadastrar(novoUsuario);
+
+                //mensagem de sucesso de cadastro
+                JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+
+                //limpando os campos de dados
+                txtNome.setText("");
+                txtLogin.setText("");
+                txtSenha.setText("");
+                cmbTipoUsuario.setSelectedItem("Selecione");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocorreu uma falha:\n" + e.getMessage());
+        }
+
+
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     /**
