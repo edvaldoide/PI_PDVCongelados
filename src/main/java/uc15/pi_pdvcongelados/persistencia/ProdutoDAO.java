@@ -48,7 +48,7 @@ public class ProdutoDAO {
 
         conectar();
 
-        String sql = "SELECT * FROM produto ORDER BY descricao";
+        String sql = "SELECT * FROM produto ORDER BY id";
 
         try {
 
@@ -59,5 +59,38 @@ public class ProdutoDAO {
             JOptionPane.showMessageDialog(null, "ListarProduto ProdutoDAO " + e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * Método para consulta de produtos cadastrados
+     */
+    public Produto getProduto(int id) {
+
+        conectar();
+
+        String sql = "SELECT * FROM filmes WHERE id = ?";
+        try {
+
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            Produto produto = new Produto();
+
+            rs.next();
+            produto.setId(id);
+            produto.setDescricao(rs.getString("descricao"));
+            produto.setQuantidade(rs.getInt("quantidade"));
+            produto.setEstoque(rs.getInt("estoque"));
+            produto.setPrecoCustoUnitario(rs.getDouble("precocustounitario"));
+            produto.setPrecoVendaUnitario(rs.getDouble("precovendaunitario"));
+
+            return produto;
+
+            //tratando o erro, caso ele ocorra
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 }

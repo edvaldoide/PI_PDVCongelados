@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.JOptionPane;
+import uc15.pi_pdvcongelados.persistencia.Produto;
 import uc15.pi_pdvcongelados.persistencia.ProdutoDAO;
 
 /**
@@ -23,6 +24,7 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
     public TelaAdicionarProdutos() {
         initComponents();
         restaurarDadosComboboxProduto();
+        adicionarProduto();
     }
 
     /**
@@ -66,6 +68,16 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
 
         cmbDescricao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cmbDescricao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
+        cmbDescricao.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbDescricaoItemStateChanged(evt);
+            }
+        });
+        cmbDescricao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbDescricaoActionPerformed(evt);
+            }
+        });
 
         lblEstoqueAtual.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblEstoqueAtual.setText("Estoque atual (unidades):");
@@ -82,10 +94,13 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
         txtAdicionar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         txtPrecoVenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtPrecoVenda.setEnabled(false);
 
         txtPrecoCusto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtPrecoCusto.setEnabled(false);
 
         txtEstoqueAtual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtEstoqueAtual.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -229,6 +244,14 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
         tcnp.setVisible(true);
     }//GEN-LAST:event_btnNovoProdutoActionPerformed
 
+    private void cmbDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDescricaoActionPerformed
+ 
+    }//GEN-LAST:event_cmbDescricaoActionPerformed
+
+    private void cmbDescricaoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbDescricaoItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbDescricaoItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -285,7 +308,7 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     Vector<Integer> idProduto = new Vector<Integer>();
-    
+
     public void restaurarDadosComboboxProduto() {
         try {
             ProdutoDAO objprodutodao = new ProdutoDAO();
@@ -297,6 +320,49 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
             }
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Carregar Produto TelaAdicionarProdutos: " + erro);
+        }
+    }
+
+    public void adicionarProduto() {
+
+        try {
+
+            int idSelecionado = cmbDescricao.getSelectedIndex() - 1;
+
+            ProdutoDAO produtodao = new ProdutoDAO();
+            Produto produto = produtodao.getProduto(idSelecionado);
+
+            if (produto == null) {
+
+                txtEstoqueAtual.setText("");
+                txtPrecoCusto.setText("");
+                txtPrecoVenda.setText("");
+                txtAdicionar.setText("");
+
+                btnAdicionar.setEnabled(false);
+
+            } else {
+                //preenchendo o formulário com os dados do produto retornado            
+               
+                txtEstoqueAtual.setText(Integer.toString(produto.getEstoque()));
+                txtPrecoCusto.setText(Double.toString(produto.getPrecoCustoUnitario()));
+                txtPrecoVenda.setText(Double.toString(produto.getPrecoVendaUnitario()));
+                txtAdicionar.setText("");
+
+                btnAdicionar.setEnabled(true);
+
+            }
+
+        } catch (NumberFormatException e) {
+
+                txtEstoqueAtual.setText("");
+                txtPrecoCusto.setText("");
+                txtPrecoVenda.setText("");
+                txtAdicionar.setText("");
+
+                btnAdicionar.setEnabled(false);
+                
+            JOptionPane.showMessageDialog(null, "O campo Descrição deve ser selecionado");
         }
     }
 
