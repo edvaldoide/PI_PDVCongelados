@@ -4,6 +4,12 @@
  */
 package uc15.pi_pdvcongelados.gui;
 
+import com.mysql.cj.protocol.Resultset;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import uc15.pi_pdvcongelados.persistencia.ProdutoDAO;
+
 /**
  *
  * @author edval
@@ -15,6 +21,7 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
      */
     public TelaAdicionarProdutos() {
         initComponents();
+        restaurarDadosComboboxProduto();
     }
 
     /**
@@ -275,4 +282,17 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrecoCusto;
     private javax.swing.JTextField txtPrecoVenda;
     // End of variables declaration//GEN-END:variables
+
+    public void restaurarDadosComboboxProduto() {
+        try {
+            ProdutoDAO objprodutodao = new ProdutoDAO();
+            ResultSet rs = objprodutodao.listarProduto();
+
+            while (rs.next()) {
+                cmbDescricao.addItem(rs.getString(2));
+            }
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Carregar Produto TelaAdicionarProdutos: " + erro);
+        }
+    }
 }

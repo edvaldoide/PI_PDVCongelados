@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class ProdutoDAO {
@@ -42,4 +44,20 @@ public class ProdutoDAO {
         }
     }
 
+    public ResultSet listarProduto() {
+
+        conectar();
+
+        String sql = "SELECT * FROM produto ORDER BY descricao";
+
+        try {
+
+            st = conn.prepareStatement(sql);
+            return st.executeQuery();
+        } catch (SQLException e) {
+
+            JOptionPane.showMessageDialog(null, "ListarProduto ProdutoDAO " + e.getMessage());
+            return null;
+        }
+    }
 }
