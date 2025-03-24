@@ -6,8 +6,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
 
 public class ProdutoDAO {
@@ -68,7 +66,7 @@ public class ProdutoDAO {
 
         conectar();
 
-        String sql = "SELECT * FROM filmes WHERE id = ?";
+        String sql = "SELECT * FROM produto WHERE id = ?";
         try {
 
             PreparedStatement stmt = this.conn.prepareStatement(sql);
@@ -93,4 +91,29 @@ public class ProdutoDAO {
         }
 
     }
+
+    /**
+     * Método para editar o estoque cadastrado
+     */
+    public void editarEstoque(Produto produto) {
+
+        conectar();
+        //string sql com o código de update para o banco de dados
+        String sql = "UPDATE produto SET estoque=? WHERE id=?";
+        try {
+            //esse trecho é igual ao método inserir
+            PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            //Setando os parâmetros
+            stmt.setInt(1, produto.getEstoque());
+            stmt.setInt(2, produto.getId());
+            //Executando a query
+            stmt.execute();
+            //tratando o erro, caso ele ocorra
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao editar Produto: " + e.getMessage());
+        }
+
+    }
+
 }
