@@ -6,7 +6,10 @@ package uc15.pi_pdvcongelados.gui;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import uc15.pi_pdvcongelados.persistencia.Produto;
 import uc15.pi_pdvcongelados.persistencia.ProdutoDAO;
 import uc15.pi_pdvcongelados.persistencia.Venda;
@@ -17,6 +20,33 @@ import uc15.pi_pdvcongelados.persistencia.VendaDAO;
  * @author edval
  */
 public class TelaVenda extends javax.swing.JFrame {
+
+    private void preencheTabela() {
+
+        VendaDAO vendadao = new VendaDAO();
+
+        String idvenda = txtIDVenda.getText();
+        List<Venda> listaVendas = vendadao.getVenda(idvenda);
+
+        DefaultTableModel tabelaVendas = (DefaultTableModel) tblVenda.getModel();
+
+        //Limpar a tabela para preencher com os novos dados
+        tabelaVendas.setNumRows(0);
+
+        tblVenda.setRowSorter(new TableRowSorter(tabelaVendas));
+
+        for (Venda v : listaVendas) {
+            Object[] obj = new Object[]{
+                v.getId(),
+                v.getIdVenda(),
+                v.getDescricaoProduto(),
+                v.getQuantPedido(),
+                v.getPrecoVendaUnitario(),
+                v.getPrecoVendaTotal(),
+                tabelaVendas.addRow(obj);
+        }
+    }
+}
 
     /**
      * Creates new form TelaVendas
@@ -296,8 +326,7 @@ public class TelaVenda extends javax.swing.JFrame {
 
                 //para descrição do produto pegamos a informação do combobox
                 novaVenda.setDescricaoProduto(produtovenda.getDescricao());
-                
-                
+
                 //para o preço de custo unitário capturamos o valor do campo de texto e convertemos para valor double
                 novaVenda.setPrecoVendaUnitario(produtovenda.getPrecoVendaUnitario());
 
