@@ -4,6 +4,7 @@
  */
 package uc15.pi_pdvcongelados.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -16,34 +17,12 @@ import uc15.pi_pdvcongelados.persistencia.VendaDAO;
  */
 public class TelaListaTotalVendas extends javax.swing.JFrame {
 
-    private void preencheTabela() {
-
-        VendaDAO vendadao = new VendaDAO();
-
-        DefaultTableModel tabelaVendas = (DefaultTableModel) tblVendas.getModel();
-
-        //Limpar a tabela para preencher com os novos dados
-        tabelaVendas.setNumRows(0);
-
-        tblVendas.setRowSorter(new TableRowSorter(tabelaVendas));
-
-        for (Vendas v : listaVendas) {
-            Object[] obj = new Object[]{
-                v.getId(),
-                v.getProdutor(),
-                v.getNome_episodio(),
-                v.getNumero_episodio(),
-                String.valueOf(r.getDuracao()),
-                v.getUrl()};
-            tabelaVendas.addRow(obj);
-        }
-    }
-
     /**
      * Creates new form TelaListaTotalVendas
      */
     public TelaListaTotalVendas() {
         initComponents();
+        listarVendas();
     }
 
     /**
@@ -76,7 +55,7 @@ public class TelaListaTotalVendas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID venda", "Produto", "Quantidade", "Preço unitário (R$)", "Total (R$)"
+                "ID", "ID venda", "Produto", "Quantidade", "Preço unitário (R$)", "Total (R$)"
             }
         ));
         jScrollPane1.setViewportView(tblVendas);
@@ -190,4 +169,27 @@ public class TelaListaTotalVendas extends javax.swing.JFrame {
     private javax.swing.JTable tblVendas;
     private javax.swing.JTextField txtValorTotal;
     // End of variables declaration//GEN-END:variables
+
+    private void listarVendas() {
+        try {
+            VendaDAO vendadao = new VendaDAO();
+
+            List<Venda> listagem = vendadao.listarTodasAsVendas();
+
+            DefaultTableModel model = (DefaultTableModel) tblVendas.getModel();
+            model.setNumRows(0);
+
+            for (int i = 0; i < listagem.size(); i++) {
+                model.addRow(new Object[]{
+                    listagem.get(i).getId(),
+                    listagem.get(i).getIdVenda(),
+                    listagem.get(i).getDescricaoProduto(),
+                    listagem.get(i).getQuantPedido(),
+                    listagem.get(i).getPrecoVendaUnitario(),
+                    listagem.get(i).getPrecoVendaTotal()
+                });
+            }
+        } catch (Exception e) {
+        }
+    }
 }

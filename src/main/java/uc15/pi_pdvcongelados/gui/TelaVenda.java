@@ -21,33 +21,6 @@ import uc15.pi_pdvcongelados.persistencia.VendaDAO;
  */
 public class TelaVenda extends javax.swing.JFrame {
 
-    private void preencheTabela() {
-
-        VendaDAO vendadao = new VendaDAO();
-
-        String idvenda = txtIDVenda.getText();
-        List<Venda> listaVendas = vendadao.getVenda(idvenda);
-
-        DefaultTableModel tabelaVendas = (DefaultTableModel) tblVenda.getModel();
-
-        //Limpar a tabela para preencher com os novos dados
-        tabelaVendas.setNumRows(0);
-
-        tblVenda.setRowSorter(new TableRowSorter(tabelaVendas));
-
-        for (Venda v : listaVendas) {
-            Object[] obj = new Object[]{
-                v.getId(),
-                v.getIdVenda(),
-                v.getDescricaoProduto(),
-                v.getQuantPedido(),
-                v.getPrecoVendaUnitario(),
-                v.getPrecoVendaTotal(),
-                tabelaVendas.addRow(obj);
-        }
-    }
-}
-
     /**
      * Creates new form TelaVendas
      */
@@ -425,4 +398,5 @@ public class TelaVenda extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Carregar Produto TelaAdicionarProdutos: " + erro);
         }
     }
+
 }

@@ -44,74 +44,89 @@ public class VendaDAO {
         }
     }
 
-    /**
-     * Criação de lista para apresentação de resultados
-     */
-    public List<Venda> getVenda(String idvenda) { //parâmetro para buscar a empresa pelo nome
+    public ArrayList<Venda> listarTodasVendas() {
 
-        conectar(); // conexao com o banco de dados
+        conn = new conectaDAO().connectDB();
 
-        String sql = "SELECT * FROM venda WHERE idvenda LIKE ?"; //LIKE nos permite pesquisar por partes de um nome, ao invés de pesquisarmos por todo nome
+        String sql = "SELECT * FROM venda";
 
         try {
+
             PreparedStatement stmt = this.conn.prepareStatement(sql);
-            stmt.setString(1, idvenda); //Conforme for a palavra ou letra digitada para pesquisa, será buscada antes, no meio e no fim
+
             ResultSet rs = stmt.executeQuery();
 
-            List<Venda> listaVendas = new ArrayList<>();
+            //Vamos criar um objeto do tipo List
+            //Faça a importação do ArrayList
+            ArrayList<Venda> listagemVendas = new ArrayList<>();
+            //percorrer o resultSet e salvar as informações dentro de uma variável "Empresa"
+            //Depois salva esse objeto dentro da lista
 
+            //Estrutura de repetição While
             while (rs.next()) { //.next retorna verdadeiro caso exista uma próxima posição dentro do array
-                Venda venda = new Venda();
+                Venda produtoVendido = new Venda();
+                //Salvar dentro do objeto empresa as informações            
+                produtoVendido.setId(rs.getInt("ID"));
+                produtoVendido.setIdVenda(rs.getString("ID venda"));
+                produtoVendido.setDescricaoProduto(rs.getString("Produto"));
+                produtoVendido.setQuantPedido(rs.getInt("Quantidade"));
+                produtoVendido.setPrecoVendaUnitario(rs.getDouble("Preço unitário (R$)"));
+                produtoVendido.setPrecoVendaTotal(rs.getDouble("Total (R$)"));
 
-                venda.setId(rs.getInt("id"));
-                venda.setIdVenda(rs.getString("idvenda"));
-                venda.setDescricaoProduto(rs.getString("descricaoproduto"));
-                venda.setQuantPedido(rs.getInt("quantpedido"));
-                venda.setPrecoVendaUnitario(rs.getDouble("precovendaunitario"));
-                venda.setPrecoVendaTotal(rs.getDouble("precovendatotal"));
+                //Adicionando os elementos na lista criada
+                listagemVendas.add(produtoVendido);
 
-                listaVendas.add(venda);
             }
-            return listaVendas;
+            //Após finalizar o while, o retorno será a listaEmpresas, onde cada posição é um registro do banco de dados
+            return listagemVendas;
 
             //Se o método entrar no "Catch" quer dizer que não encontrou nenhuma empresa, então damos um "return null"
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Nenhuma venda encontrada");
             return null;
         }
+
     }
-    
-        public List<Venda> getVendaTotal() { //parâmetro para buscar a empresa pelo nome
 
-        conectar(); // conexao com o banco de dados
+    public ArrayList<Venda> listarTodasAsVendas() {
 
-        String sql = "SELECT * FROM venda"; //LIKE nos permite pesquisar por partes de um nome, ao invés de pesquisarmos por todo nome
+        conn = new conectaDAO().connectDB();
+
+        String sql = "SELECT * FROM produtos";
 
         try {
             PreparedStatement stmt = this.conn.prepareStatement(sql);
+
             ResultSet rs = stmt.executeQuery();
 
-            List<Venda> listaTotal = new ArrayList<>();
+            //Vamos criar um objeto do tipo List
+            //Faça a importação do ArrayList
+            ArrayList<Venda> listagemVendidos = new ArrayList<>();
+            //percorrer o resultSet e salvar as informações dentro de uma variável "Empresa"
+            //Depois salva esse objeto dentro da lista
 
+            //Estrutura de repetição While
             while (rs.next()) { //.next retorna verdadeiro caso exista uma próxima posição dentro do array
-                Venda venda = new Venda();
+                Venda produtoVendido = new Venda();
+                //Salvar dentro do objeto empresa as informações            
+                produtoVendido.setId(rs.getInt("id"));
+                produtoVendido.setIdVenda(rs.getString("idvenda"));
+                produtoVendido.setDescricaoProduto(rs.getString("descricaoproduto"));
+                produtoVendido.setQuantPedido(rs.getInt("quantpedido"));
+                produtoVendido.setPrecoVendaUnitario(rs.getDouble("precovendaunitario"));
+                produtoVendido.setPrecoVendaTotal(rs.getDouble("precovendatotal"));
 
-                venda.setId(rs.getInt("id"));
-                venda.setIdVenda(rs.getString("idvenda"));
-                venda.setDescricaoProduto(rs.getString("descricaoproduto"));
-                venda.setQuantPedido(rs.getInt("quantpedido"));
-                venda.setPrecoVendaUnitario(rs.getDouble("precovendaunitario"));
-                venda.setPrecoVendaTotal(rs.getDouble("precovendatotal"));
+                //Adicionando os elementos na lista criada
+                listagemVendidos.add(produtoVendido);
 
-                listaTotal.add(venda);
             }
-            return listaTotal;
+            //Após finalizar o while, o retorno será a listaEmpresas, onde cada posição é um registro do banco de dados
+            return listagemVendidos;
 
             //Se o método entrar no "Catch" quer dizer que não encontrou nenhuma empresa, então damos um "return null"
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Nenhuma venda encontrada");
             return null;
         }
+
     }
 
 }
