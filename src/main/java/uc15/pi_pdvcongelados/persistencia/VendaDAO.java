@@ -91,7 +91,7 @@ public class VendaDAO {
 
         conn = new conectaDAO().connectDB();
 
-        String sql = "SELECT * FROM produtos";
+        String sql = "SELECT * FROM venda";
 
         try {
             PreparedStatement stmt = this.conn.prepareStatement(sql);
