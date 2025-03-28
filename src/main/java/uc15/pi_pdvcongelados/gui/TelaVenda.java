@@ -56,7 +56,6 @@ public class TelaVenda extends javax.swing.JFrame {
         lblPrecoCusto2 = new javax.swing.JLabel();
         lblPrecoCusto4 = new javax.swing.JLabel();
         txtValorTotalCompra = new javax.swing.JTextField();
-        lblPrecoCusto3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -160,6 +159,7 @@ public class TelaVenda extends javax.swing.JFrame {
         lblPrecoCusto4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblPrecoCusto4.setText("Total (R$)");
 
+        txtValorTotalCompra.setEditable(false);
         txtValorTotalCompra.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -205,9 +205,6 @@ public class TelaVenda extends javax.swing.JFrame {
                     .addContainerGap(133, Short.MAX_VALUE)))
         );
 
-        lblPrecoCusto3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblPrecoCusto3.setText("Quantidade:");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -223,11 +220,6 @@ public class TelaVenda extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(21, 21, 21))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(270, 270, 270)
-                    .addComponent(lblPrecoCusto3)
-                    .addContainerGap(270, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,11 +237,6 @@ public class TelaVenda extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(308, 308, 308)
-                    .addComponent(lblPrecoCusto3)
-                    .addContainerGap(309, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -387,7 +374,6 @@ public class TelaVenda extends javax.swing.JFrame {
     private javax.swing.JLabel lblPrecoCusto;
     private javax.swing.JLabel lblPrecoCusto1;
     private javax.swing.JLabel lblPrecoCusto2;
-    private javax.swing.JLabel lblPrecoCusto3;
     private javax.swing.JLabel lblPrecoCusto4;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTable tblVenda;

@@ -64,6 +64,7 @@ public class TelaListaTotalVendas extends javax.swing.JFrame {
         lblPrecoCusto4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblPrecoCusto4.setText("Total (R$)");
 
+        txtValorTotal.setEditable(false);
         txtValorTotal.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
