@@ -23,6 +23,7 @@ public class TelaListaTotalVendas extends javax.swing.JFrame {
     public TelaListaTotalVendas() {
         initComponents();
         listarVendas();
+        somarVendas();
     }
 
     /**
@@ -190,6 +191,18 @@ public class TelaListaTotalVendas extends javax.swing.JFrame {
                 });
             }
         } catch (Exception e) {
+        }
+    }
+
+    private void somarVendas() {
+
+        try {
+            VendaDAO vendadao = new VendaDAO();
+            
+            txtValorTotal.setText(String.valueOf(vendadao.somatoriaListarTodasAsVendas()));
+            
+            }
+        catch (Exception e) {
         }
     }
 }

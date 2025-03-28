@@ -86,6 +86,36 @@ public class VendaDAO {
 
     }
 
+    public double somatoriaListarTodasAsVendas() {
+
+        conn = new conectaDAO().connectDB();
+
+        String sql = "SELECT SUM(precovendatotal) FROM venda;";
+
+        try {
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+
+            //variável para armazenar a somatória
+            double somatoriaTotalVendas = 0.00;
+            //Loop para somar todos os registros
+
+            while (rs.next()) {
+            
+            somatoriaTotalVendas = rs.getDouble(1);
+            }
+            
+            
+            return somatoriaTotalVendas;
+
+            //Se o método entrar no "Catch" quer dizer que não encontrou nenhuma empresa, então damos um "return null"
+        } catch (SQLException e) {
+            return 0.00;
+        }
+
+    }
+
     public ArrayList<Venda> listarAVendaUnitaria(String idvenda) {
 
         conn = new conectaDAO().connectDB();
@@ -94,7 +124,7 @@ public class VendaDAO {
 
         try {
             PreparedStatement stmt = this.conn.prepareStatement(sql);
-            
+
             stmt.setString(1, idvenda);
 
             ResultSet rs = stmt.executeQuery();
