@@ -57,6 +57,7 @@ public class TelaVenda extends javax.swing.JFrame {
         lblPrecoCusto2 = new javax.swing.JLabel();
         lblPrecoCusto4 = new javax.swing.JLabel();
         txtValorTotalCompra = new javax.swing.JTextField();
+        btnExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -163,6 +164,13 @@ public class TelaVenda extends javax.swing.JFrame {
         txtValorTotalCompra.setEditable(false);
         txtValorTotalCompra.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -171,14 +179,15 @@ public class TelaVenda extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(77, 406, Short.MAX_VALUE)
-                        .addComponent(lblPrecoCusto4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                        .addComponent(lblPrecoCusto4))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(119, 119, 119)
+                        .addComponent(btnExcluir)
+                        .addGap(44, 44, 44)
                         .addComponent(btnFinalizarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtValorTotalCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane1)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(245, 245, 245)
@@ -197,7 +206,9 @@ public class TelaVenda extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                        .addComponent(btnFinalizarVenda)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnFinalizarVenda)
+                            .addComponent(btnExcluir))
                         .addGap(26, 26, 26))))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
@@ -334,6 +345,36 @@ public class TelaVenda extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnFinalizarVendaActionPerformed
 
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        
+         try {
+
+            if (tblVenda.getSelectedRow() < 0) {
+                JOptionPane.showMessageDialog(null, "Selecione um item para ser excluído");
+            } else if (tblVenda.getSelectedRow() >= 0) { //verifica se há algo selecionado na tabela
+                //obtém o valor da coluna id da linha selecionada
+                int id = (int) tblVenda.getValueAt(tblVenda.getSelectedRow(), 0);
+                //janela de confirmação
+                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o registro " + id + "?");
+                if (resposta == 0)//0- yes, 1- no, 2- cancel
+                {
+                    //realizando a exclusão
+                    VendaDAO vendadao = new VendaDAO();
+                    vendadao.excluir((id));
+                    JOptionPane.showMessageDialog(this, "Registro excluído com sucesso!");
+
+                    //refazendo a pesquisa para atualizar a tabela na tela
+                    TelaVenda tv = new TelaVenda();
+                    tv.setVisible(true);
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocorreu uma falha:\n" + e.getMessage());
+        }       
+        
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -374,6 +415,7 @@ public class TelaVenda extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnFinalizarVenda;
     private javax.swing.JComboBox<String> cmbDescricao;
     private javax.swing.JPanel jPanel1;

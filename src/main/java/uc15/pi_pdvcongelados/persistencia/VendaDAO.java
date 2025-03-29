@@ -102,11 +102,10 @@ public class VendaDAO {
             //Loop para somar todos os registros
 
             while (rs.next()) {
-            
-            somatoriaTotalVendas = rs.getDouble(1);
+
+                somatoriaTotalVendas = rs.getDouble(1);
             }
-            
-            
+
             return somatoriaTotalVendas;
 
             //Se o método entrar no "Catch" quer dizer que não encontrou nenhuma empresa, então damos um "return null"
@@ -159,8 +158,8 @@ public class VendaDAO {
         }
 
     }
-    
-        public double somatoriaVendaUnitaria(String idvenda) {
+
+    public double somatoriaVendaUnitaria(String idvenda) {
 
         conn = new conectaDAO().connectDB();
 
@@ -168,7 +167,7 @@ public class VendaDAO {
 
         try {
             PreparedStatement stmt = this.conn.prepareStatement(sql);
-            
+
             stmt.setString(1, idvenda);
 
             ResultSet rs = stmt.executeQuery();
@@ -178,16 +177,35 @@ public class VendaDAO {
             //Loop para somar todos os registros
 
             while (rs.next()) {
-            
-            somatoriaTotalVendaUnitaria = rs.getDouble(1);
+
+                somatoriaTotalVendaUnitaria = rs.getDouble(1);
             }
-            
-            
+
             return somatoriaTotalVendaUnitaria;
 
             //Se o método entrar no "Catch" quer dizer que não encontrou nenhuma empresa, então damos um "return null"
         } catch (SQLException e) {
             return 0.00;
+        }
+
+    }
+
+    public void excluir(int id) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            Venda v = em.find(Venda.class, id);
+
+            if (v != null) {
+                em.getTransaction().begin();
+                em.remove(v);
+                em.getTransaction().commit();
+
+            }
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw e;
+        } finally {
+            JPAUtil.closeEtityManager();
         }
 
     }
