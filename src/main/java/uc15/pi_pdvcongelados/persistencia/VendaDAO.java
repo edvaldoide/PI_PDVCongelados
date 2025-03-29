@@ -159,5 +159,37 @@ public class VendaDAO {
         }
 
     }
+    
+        public double somatoriaVendaUnitaria(String idvenda) {
+
+        conn = new conectaDAO().connectDB();
+
+        String sql = "SELECT SUM(precovendatotal) FROM venda WHERE idvenda=?";
+
+        try {
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            
+            stmt.setString(1, idvenda);
+
+            ResultSet rs = stmt.executeQuery();
+
+            //variável para armazenar a somatória
+            double somatoriaTotalVendaUnitaria = 0.00;
+            //Loop para somar todos os registros
+
+            while (rs.next()) {
+            
+            somatoriaTotalVendaUnitaria = rs.getDouble(1);
+            }
+            
+            
+            return somatoriaTotalVendaUnitaria;
+
+            //Se o método entrar no "Catch" quer dizer que não encontrou nenhuma empresa, então damos um "return null"
+        } catch (SQLException e) {
+            return 0.00;
+        }
+
+    }
 
 }

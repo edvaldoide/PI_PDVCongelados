@@ -27,6 +27,7 @@ public class TelaVenda extends javax.swing.JFrame {
     public TelaVenda() {
         initComponents();
         restaurarDadosComboboxProduto();
+        somarTotalVenda();
     }
 
     /**
@@ -307,7 +308,8 @@ public class TelaVenda extends javax.swing.JFrame {
                 vendadao.cadastrar(novaVenda);
 
                 listarVendaUnitaria();
-                
+                somarTotalVenda();
+
                 //limpando os campos de dados
                 cmbDescricao.setSelectedIndex(0);
                 txtQuantidade.setText("");
@@ -394,8 +396,8 @@ public class TelaVenda extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Carregar Produto TelaVenda: " + erro);
         }
     }
-    
-        private void listarVendaUnitaria() {
+
+    private void listarVendaUnitaria() {
         try {
             VendaDAO vendadao = new VendaDAO();
 
@@ -415,6 +417,18 @@ public class TelaVenda extends javax.swing.JFrame {
                     listagem.get(i).getPrecoVendaTotal()
                 });
             }
+        } catch (Exception e) {
+        }
+    }
+
+    private void somarTotalVenda() {
+
+        try {
+            VendaDAO vendadao = new VendaDAO();
+
+            String idpesquisaVenda = txtIDVenda.getText();
+            txtValorTotalCompra.setText(String.valueOf(vendadao.somatoriaVendaUnitaria(idpesquisaVenda)));
+
         } catch (Exception e) {
         }
     }
