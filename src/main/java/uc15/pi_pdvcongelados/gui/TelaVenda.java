@@ -322,7 +322,16 @@ public class TelaVenda extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarVendaActionPerformed
-        // TODO add your handling code here:
+
+                //limpando os campos de dados
+                txtIDVenda.setText("");
+                cmbDescricao.setSelectedIndex(0);
+                txtQuantidade.setText("");
+                
+                dispose();
+                TelaVenda tv = new TelaVenda();
+                tv.setVisible(true);
+        
     }//GEN-LAST:event_btnFinalizarVendaActionPerformed
 
     /**
