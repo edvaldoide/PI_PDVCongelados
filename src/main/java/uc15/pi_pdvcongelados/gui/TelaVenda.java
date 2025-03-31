@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import uc15.pi_pdvcongelados.persistencia.Produto;
 import uc15.pi_pdvcongelados.persistencia.ProdutoDAO;
 import uc15.pi_pdvcongelados.persistencia.Venda;

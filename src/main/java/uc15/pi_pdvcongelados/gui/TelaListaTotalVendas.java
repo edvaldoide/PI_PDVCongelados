@@ -4,10 +4,8 @@
  */
 package uc15.pi_pdvcongelados.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import uc15.pi_pdvcongelados.persistencia.Venda;
 import uc15.pi_pdvcongelados.persistencia.VendaDAO;
 
