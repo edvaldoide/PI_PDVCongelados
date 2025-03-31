@@ -164,7 +164,8 @@ public class TelaVenda extends javax.swing.JFrame {
         txtValorTotalCompra.setEditable(false);
         txtValorTotalCompra.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        btnExcluir.setText("Excluir");
+        btnExcluir.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnExcluir.setText("Excluir item");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -176,14 +177,15 @@ public class TelaVenda extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(77, 406, Short.MAX_VALUE)
                         .addComponent(lblPrecoCusto4))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnExcluir)
-                        .addGap(44, 44, 44)
-                        .addComponent(btnFinalizarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnFinalizarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtValorTotalCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -334,20 +336,20 @@ public class TelaVenda extends javax.swing.JFrame {
 
     private void btnFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarVendaActionPerformed
 
-                //limpando os campos de dados
-                txtIDVenda.setText("");
-                cmbDescricao.setSelectedIndex(0);
-                txtQuantidade.setText("");
-                
-                dispose();
-                TelaVenda tv = new TelaVenda();
-                tv.setVisible(true);
-        
+        //limpando os campos de dados
+        txtIDVenda.setText("");
+        cmbDescricao.setSelectedIndex(0);
+        txtQuantidade.setText("");
+
+        dispose();
+        TelaVenda tv = new TelaVenda();
+        tv.setVisible(true);
+
     }//GEN-LAST:event_btnFinalizarVendaActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        
-         try {
+
+        try {
 
             if (tblVenda.getSelectedRow() < 0) {
                 JOptionPane.showMessageDialog(null, "Selecione um item para ser excluído");
@@ -364,15 +366,15 @@ public class TelaVenda extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Registro excluído com sucesso!");
 
                     //refazendo a pesquisa para atualizar a tabela na tela
-                    TelaVenda tv = new TelaVenda();
-                    tv.setVisible(true);
+                    listarVendaUnitaria();
+                    somarTotalVenda();
                 }
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ocorreu uma falha:\n" + e.getMessage());
-        }       
-        
+        }
+
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     /**
