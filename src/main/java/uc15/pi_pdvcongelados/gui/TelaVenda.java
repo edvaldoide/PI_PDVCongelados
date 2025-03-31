@@ -305,6 +305,16 @@ public class TelaVenda extends javax.swing.JFrame {
                 ProdutoDAO produtodao = new ProdutoDAO();
                 Produto produtovenda = produtodao.getProduto(indexProduto);
 
+                int estoqueCadastrado = produtovenda.getEstoque();
+                int estoqueAtual = estoqueCadastrado - Integer.parseInt(strQuantidade);
+
+                Produto p = new Produto();
+                p.setId(indexProduto);
+                p.setEstoque(estoqueAtual);
+
+                ProdutoDAO pdao = new ProdutoDAO();
+                pdao.editarEstoque(p);
+
                 //para descrição do produto pegamos a informação do combobox
                 novaVenda.setDescricaoProduto(produtovenda.getDescricao());
 
