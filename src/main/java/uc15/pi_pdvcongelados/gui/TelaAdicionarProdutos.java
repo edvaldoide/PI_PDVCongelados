@@ -4,6 +4,13 @@
  */
 package uc15.pi_pdvcongelados.gui;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import uc15.pi_pdvcongelados.persistencia.Produto;
+import uc15.pi_pdvcongelados.persistencia.ProdutoDAO;
+
 /**
  *
  * @author edval
@@ -15,6 +22,8 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
      */
     public TelaAdicionarProdutos() {
         initComponents();
+        restaurarDadosComboboxProduto();
+        listarDadosProduto();
     }
 
     /**
@@ -36,10 +45,10 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
         lblPrecoCusto = new javax.swing.JLabel();
         lblPrecoVenda = new javax.swing.JLabel();
         lblAdicionar = new javax.swing.JLabel();
-        txtAdicionar = new javax.swing.JTextField();
-        txtPrecoVenda = new javax.swing.JTextField();
-        txtPrecoCusto = new javax.swing.JTextField();
         txtEstoqueAtual = new javax.swing.JTextField();
+        txtPrecoCusto = new javax.swing.JFormattedTextField();
+        txtPrecoVenda = new javax.swing.JFormattedTextField();
+        txtAdicionar = new javax.swing.JFormattedTextField();
         btnAdicionar = new javax.swing.JButton();
         btnNovoProduto = new javax.swing.JButton();
 
@@ -58,6 +67,16 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
 
         cmbDescricao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cmbDescricao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
+        cmbDescricao.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbDescricaoItemStateChanged(evt);
+            }
+        });
+        cmbDescricao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbDescricaoActionPerformed(evt);
+            }
+        });
 
         lblEstoqueAtual.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblEstoqueAtual.setText("Estoque atual (unidades):");
@@ -71,13 +90,19 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
         lblAdicionar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblAdicionar.setText("Quantidade a ser adicionada:");
 
-        txtAdicionar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtEstoqueAtual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtEstoqueAtual.setEnabled(false);
 
-        txtPrecoVenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
+        txtPrecoCusto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtPrecoCusto.setEnabled(false);
         txtPrecoCusto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        txtEstoqueAtual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtPrecoVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtPrecoVenda.setEnabled(false);
+        txtPrecoVenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        txtAdicionar.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        txtAdicionar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -95,17 +120,17 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(txtPrecoVenda))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblPrecoCusto)
-                        .addGap(23, 23, 23)
-                        .addComponent(txtPrecoCusto))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblEstoqueAtual)
-                        .addGap(50, 50, 50)
-                        .addComponent(txtEstoqueAtual))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblDescricao)
                         .addGap(18, 18, 18)
-                        .addComponent(cmbDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cmbDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblEstoqueAtual)
+                            .addComponent(lblPrecoCusto))
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtEstoqueAtual)
+                            .addComponent(txtPrecoCusto))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -131,7 +156,7 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAdicionar)
                     .addComponent(txtAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         btnAdicionar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -188,7 +213,7 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdicionar)
                     .addComponent(btnNovoProduto))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -213,13 +238,57 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        // TODO add your handling code here:
+
+        //Pegar o código que o usuário digitou no campo de texto
+        int id = cmbDescricao.getSelectedIndex();
+        int estoqueAtual = Integer.parseInt(txtEstoqueAtual.getText());
+
+        String strAdicionar = txtAdicionar.getText();
+        boolean boolAdicionar = strAdicionar.isEmpty();
+
+        if (boolAdicionar == true || strAdicionar == "") {
+            JOptionPane.showMessageDialog(null, "O campo Quantidade a ser adicionada deve ser informado e válido");
+        } else {
+
+            int adicionar = Integer.parseInt(strAdicionar);
+            int novoEstoque = estoqueAtual + adicionar;
+
+            Produto produto = new Produto();
+            produto.setId(id);
+            produto.setEstoque(novoEstoque);
+
+            ProdutoDAO produtodao = new ProdutoDAO();
+            produtodao.editarEstoque(produto);
+
+            //limpando os campos
+            cmbDescricao.setSelectedIndex(0);
+            txtEstoqueAtual.setText("");
+            txtPrecoCusto.setText("");
+            txtPrecoVenda.setText("");
+
+            JOptionPane.showMessageDialog(this, "Dados do estoque alterados com sucesso!");
+
+            dispose();
+
+            TelaAdicionarProdutos tap = new TelaAdicionarProdutos();
+            tap.setVisible(true);
+        }
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnNovoProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoProdutoActionPerformed
+        dispose();
+
         TelaCadastroNovoProduto tcnp = new TelaCadastroNovoProduto();
         tcnp.setVisible(true);
     }//GEN-LAST:event_btnNovoProdutoActionPerformed
+
+    private void cmbDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDescricaoActionPerformed
+
+    }//GEN-LAST:event_cmbDescricaoActionPerformed
+
+    private void cmbDescricaoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbDescricaoItemStateChanged
+        listarDadosProduto();
+    }//GEN-LAST:event_cmbDescricaoItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -270,9 +339,69 @@ public class TelaAdicionarProdutos extends javax.swing.JFrame {
     private javax.swing.JLabel lblPrecoCusto;
     private javax.swing.JLabel lblPrecoVenda;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JTextField txtAdicionar;
+    private javax.swing.JFormattedTextField txtAdicionar;
     private javax.swing.JTextField txtEstoqueAtual;
-    private javax.swing.JTextField txtPrecoCusto;
-    private javax.swing.JTextField txtPrecoVenda;
+    private javax.swing.JFormattedTextField txtPrecoCusto;
+    private javax.swing.JFormattedTextField txtPrecoVenda;
     // End of variables declaration//GEN-END:variables
+
+    Vector<Integer> idProduto = new Vector<Integer>();
+
+    public void restaurarDadosComboboxProduto() {
+        try {
+            ProdutoDAO objprodutodao = new ProdutoDAO();
+            ResultSet rs = objprodutodao.listarProduto();
+
+            while (rs.next()) {
+                idProduto.addElement(rs.getInt(1));
+                cmbDescricao.addItem(rs.getString(2));
+            }
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Carregar Produto TelaAdicionarProdutos: " + erro);
+        }
+    }
+
+    public void listarDadosProduto() {
+
+        try {
+
+            int idSelecionado = (cmbDescricao.getSelectedIndex());
+
+            ProdutoDAO produtodao = new ProdutoDAO();
+            Produto produto = produtodao.getProduto(idSelecionado);
+
+            if (idSelecionado < 1) {
+
+                txtEstoqueAtual.setText("");
+                txtPrecoCusto.setText("");
+                txtPrecoVenda.setText("");
+                txtAdicionar.setText("");
+
+                btnAdicionar.setEnabled(false);
+
+            } else {
+                //preenchendo o formulário com os dados do produto retornado            
+
+                txtEstoqueAtual.setText(Integer.toString(produto.getEstoque()));
+                txtPrecoCusto.setText(Double.toString(produto.getPrecoCustoUnitario()));
+                txtPrecoVenda.setText(Double.toString(produto.getPrecoVendaUnitario()));
+                txtAdicionar.setText("");
+
+                btnAdicionar.setEnabled(true);
+
+            }
+
+        } catch (NumberFormatException e) {
+
+            txtEstoqueAtual.setText("");
+            txtPrecoCusto.setText("");
+            txtPrecoVenda.setText("");
+            txtAdicionar.setText("");
+
+            btnAdicionar.setEnabled(false);
+
+            JOptionPane.showMessageDialog(null, "O campo Descrição deve ser selecionado");
+        }
+    }
+
 }

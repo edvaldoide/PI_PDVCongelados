@@ -1,8 +1,17 @@
 package uc15.pi_pdvcongelados.persistencia;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Venda {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String idVenda;
     private String descricaoProduto;
     private int quantPedido;
     private double precoVendaUnitario;
@@ -14,6 +23,14 @@ public class Venda {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getIdVenda() {
+        return idVenda;
+    }
+
+    public void setIdVenda(String idVenda) {
+        this.idVenda = idVenda;
     }
 
     public String getDescricaoProduto() {
@@ -47,7 +64,5 @@ public class Venda {
     public void setPrecoVendaTotal(double precoVendaTotal) {
         this.precoVendaTotal = precoVendaTotal;
     }
-
-
 
 }

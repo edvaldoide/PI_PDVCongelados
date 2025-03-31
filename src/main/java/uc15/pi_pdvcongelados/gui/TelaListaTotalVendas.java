@@ -4,6 +4,11 @@
  */
 package uc15.pi_pdvcongelados.gui;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import uc15.pi_pdvcongelados.persistencia.Venda;
+import uc15.pi_pdvcongelados.persistencia.VendaDAO;
+
 /**
  *
  * @author edval
@@ -15,6 +20,8 @@ public class TelaListaTotalVendas extends javax.swing.JFrame {
      */
     public TelaListaTotalVendas() {
         initComponents();
+        listarVendas();
+        somarVendas();
     }
 
     /**
@@ -30,9 +37,9 @@ public class TelaListaTotalVendas extends javax.swing.JFrame {
         lblLogo = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblVendas = new javax.swing.JTable();
         lblPrecoCusto4 = new javax.swing.JLabel();
-        txtPrecoCusto2 = new javax.swing.JTextField();
+        txtValorTotal = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -42,20 +49,20 @@ public class TelaListaTotalVendas extends javax.swing.JFrame {
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTitulo.setText("LISTA COMPLETA DE VENDAS");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblVendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID venda", "Produto", "Quantidade", "Preço unitário (R$)", "Total (R$)"
+                "ID", "ID venda", "Produto", "Quantidade", "Preço unitário (R$)", "Total (R$)"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblVendas);
 
         lblPrecoCusto4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblPrecoCusto4.setText("Total (R$)");
 
-        txtPrecoCusto2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtValorTotal.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -63,17 +70,17 @@ public class TelaListaTotalVendas extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(lblLogo)
-                            .addGap(74, 74, 74)
-                            .addComponent(lblTitulo)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblLogo)
+                        .addGap(74, 74, 74)
+                        .addComponent(lblTitulo)
+                        .addGap(78, 78, 78))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblPrecoCusto4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtPrecoCusto2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -92,7 +99,7 @@ public class TelaListaTotalVendas extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPrecoCusto4)
-                    .addComponent(txtPrecoCusto2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
 
@@ -155,10 +162,45 @@ public class TelaListaTotalVendas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblPrecoCusto4;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JTextField txtPrecoCusto2;
+    private javax.swing.JTable tblVendas;
+    private javax.swing.JTextField txtValorTotal;
     // End of variables declaration//GEN-END:variables
+
+    private void listarVendas() {
+        try {
+            VendaDAO vendadao = new VendaDAO();
+
+            List<Venda> listagem = vendadao.listarTodasAsVendas();
+
+            DefaultTableModel model = (DefaultTableModel) tblVendas.getModel();
+            model.setNumRows(0);
+
+            for (int i = 0; i < listagem.size(); i++) {
+                model.addRow(new Object[]{
+                    listagem.get(i).getId(),
+                    listagem.get(i).getIdVenda(),
+                    listagem.get(i).getDescricaoProduto(),
+                    listagem.get(i).getQuantPedido(),
+                    listagem.get(i).getPrecoVendaUnitario(),
+                    listagem.get(i).getPrecoVendaTotal()
+                });
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private void somarVendas() {
+
+        try {
+            VendaDAO vendadao = new VendaDAO();
+            
+            txtValorTotal.setText(String.valueOf(vendadao.somatoriaListarTodasAsVendas()));
+            
+            }
+        catch (Exception e) {
+        }
+    }
 }

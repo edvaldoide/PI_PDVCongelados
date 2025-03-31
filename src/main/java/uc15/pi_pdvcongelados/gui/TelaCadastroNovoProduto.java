@@ -30,10 +30,10 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
         lblPrecoCusto = new javax.swing.JLabel();
         lblPrecoVenda = new javax.swing.JLabel();
         lblAdicionar = new javax.swing.JLabel();
-        txtAdicionar = new javax.swing.JTextField();
-        txtPrecoVenda = new javax.swing.JTextField();
-        txtPrecoCusto = new javax.swing.JTextField();
+        txtAdicionar = new javax.swing.JFormattedTextField();
         txtDescricao = new javax.swing.JTextField();
+        txtPrecoCusto = new javax.swing.JFormattedTextField();
+        txtPrecoVenda = new javax.swing.JFormattedTextField();
         btnCadastrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -58,13 +58,16 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
         lblAdicionar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblAdicionar.setText("Quantidade a ser adicionada:");
 
+        txtAdicionar.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         txtAdicionar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        txtPrecoVenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtDescricao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
+        txtPrecoCusto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         txtPrecoCusto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        txtDescricao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtPrecoVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtPrecoVenda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -78,17 +81,17 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(txtPrecoVenda, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblPrecoCusto)
-                        .addGap(23, 23, 23)
-                        .addComponent(txtPrecoCusto))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblDescricao)
                         .addGap(18, 18, 18)
                         .addComponent(txtDescricao))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblAdicionar)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAdicionar)
+                            .addComponent(lblPrecoCusto))
                         .addGap(18, 18, 18)
-                        .addComponent(txtAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPrecoCusto, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                            .addComponent(txtAdicionar))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -102,7 +105,7 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAdicionar)
                     .addComponent(txtAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPrecoCusto)
                     .addComponent(txtPrecoCusto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -110,7 +113,7 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPrecoVenda)
                     .addComponent(txtPrecoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         btnCadastrar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -150,7 +153,7 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(lblTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 309, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 318, Short.MAX_VALUE)
                 .addComponent(btnCadastrar)
                 .addGap(18, 18, 18))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,9 +218,9 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
                 //para o estoque capturamos o valor do campo de texto e convertemos para valor inteiro
                 novoProduto.setEstoque(Integer.parseInt(strAdicionar));
                 //para o preço de custo unitário capturamos o valor do campo de texto e convertemos para valor double
-                novoProduto.setPrecoCustoUnitario(Double.parseDouble(strPrecoCusto));
+                novoProduto.setPrecoCustoUnitario(Double.parseDouble(strPrecoCusto.replace(',', '.')));
                 //para o preço de venda unitário capturamos o valor do campo de texto e convertemos para valor double
-                novoProduto.setPrecoVendaUnitario(Double.parseDouble(strPrecoVenda));
+                novoProduto.setPrecoVendaUnitario(Double.parseDouble(strPrecoVenda.replace(',', '.')));
 
                 //gravando os dados no repositório
                 ProdutoDAO produtoDao = new ProdutoDAO();
@@ -225,12 +228,17 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
 
                 //mensagem de sucesso de cadastro
                 JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
-
+                
                 //limpando os campos de dados
                 txtDescricao.setText("");
                 txtAdicionar.setText("");
                 txtPrecoCusto.setText("");
                 txtPrecoVenda.setText("");
+                
+                dispose();
+                
+                TelaAdicionarProdutos tap = new TelaAdicionarProdutos();
+                tap.setVisible(true);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ocorreu uma falha:\n" + e.getMessage());
@@ -286,9 +294,9 @@ public class TelaCadastroNovoProduto extends javax.swing.JFrame {
     private javax.swing.JLabel lblPrecoCusto;
     private javax.swing.JLabel lblPrecoVenda;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JTextField txtAdicionar;
+    private javax.swing.JFormattedTextField txtAdicionar;
     private javax.swing.JTextField txtDescricao;
-    private javax.swing.JTextField txtPrecoCusto;
-    private javax.swing.JTextField txtPrecoVenda;
+    private javax.swing.JFormattedTextField txtPrecoCusto;
+    private javax.swing.JFormattedTextField txtPrecoVenda;
     // End of variables declaration//GEN-END:variables
 }
